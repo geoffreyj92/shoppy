@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.mapping.List;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -23,8 +24,8 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transactionId;
     private Date date;
-    private List items;
-    private String userId;
+    private ArrayList items;
+    private Integer userId;
     private String userName;
 
 }
