@@ -15,13 +15,16 @@ import java.util.List;
 public class TransactionService {
 
     private final TransactionRepository repository;
+
+    private ArrayList<Integer> cart;
+
     Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
     public TransactionService(TransactionRepository repository) {
         this.repository = repository;
     }
 
-    public Transaction createTransaction(ArrayList<Integer> items, Integer userId) {
+    public Transaction completeTransaction(ArrayList<Integer> items, Long userId) {
         //I need to find a way to extract the userId from the logged-in user and add to transaction
         Transaction transaction = new Transaction();
 
@@ -41,7 +44,7 @@ public class TransactionService {
        return transaction;
     }
 
-    public void addToCart() {
+    private void addToCart() {
 
     }
 

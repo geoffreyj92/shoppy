@@ -9,18 +9,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
+
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class Owner {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Catalog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ownerId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String businessName;
+    private Long id;
+    private String name;
+    private String description;
+    private String category;
+    private Integer quantity;
+    private Double price;
+    private Integer businessId;
+    private Integer sku;
 }

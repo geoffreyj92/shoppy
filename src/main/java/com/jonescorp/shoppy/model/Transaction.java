@@ -22,10 +22,10 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer transactionId;
+    private Long transactionId;
     private Date date;
     private ArrayList items;
-    private Integer userId;
+    private Long userId;
     private String userName;
 
 }

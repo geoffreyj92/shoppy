@@ -27,10 +27,10 @@ public class TransactionController {
     @PostMapping("/username/transactions")
     public Transaction createTransaction(@RequestBody
                                              @RequestParam ArrayList<Integer> items,
-                                         @RequestParam Integer userId) {
+                                         @RequestParam Long userId) {
         //will need to take the items from the cart and post a transaction for the items in cart
         //will need to clear cart when items submitted and store transaction in DB
-        return transactionService.createTransaction(items, userId);
+        return transactionService.completeTransaction(items, userId);
     }
 
     public Optional<Transaction> getTransactionById(@RequestParam Integer transactionId) {
