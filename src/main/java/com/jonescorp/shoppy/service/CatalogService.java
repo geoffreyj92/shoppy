@@ -59,7 +59,6 @@ public class CatalogService {
             catalog.setQuantity(quantity + updateQuantityFromDbAmount(catalogId));
             // business id needs to pulled from business of logged in owner
             catalog.setBusinessId(getIdOfLoggedInBusinessOwner());
-
         }
 
 
