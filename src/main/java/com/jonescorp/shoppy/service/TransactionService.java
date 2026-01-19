@@ -1,5 +1,6 @@
 package com.jonescorp.shoppy.service;
 
+import com.jonescorp.shoppy.model.Catalog;
 import com.jonescorp.shoppy.model.Transaction;
 import com.jonescorp.shoppy.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -51,6 +53,20 @@ public class TransactionService {
     public List<Transaction> getAllTransactions(String userId) {
         return repository.findAll();
     }
+
+    //TODO: NEED to update this method to get transactions for username or userid
+//    public Optional<Catalog> getCatalogByUsernameOrUserId(Long id, String username) {
+//        Optional<Catalog> catalogById = catalogRepository.findById(id);
+//        Optional<Catalog> catalogByUsername = catalogRepository.findByUsername(username);
+//
+//        if (catalogByUsername.isPresent()) {
+//            return catalogByUsername;
+//        } else if (catalogById.isPresent()) {
+//            return catalogById;
+//        } else {
+//            throw new RuntimeException("Catalog not found");
+//        }
+//    }
 
 
 }

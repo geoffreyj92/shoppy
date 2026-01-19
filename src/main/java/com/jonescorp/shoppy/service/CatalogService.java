@@ -40,19 +40,6 @@ public class CatalogService {
         }
     }
 
-    public Optional<Catalog> getCatalogByUsernameOrUserId(Long id,  String username) {
-        Optional<Catalog> catalogById = catalogRepository.findById(id);
-        Optional<Catalog> catalogByUsername = catalogRepository.findByUsername(username);
-
-        if (catalogByUsername.isPresent()) {
-            return catalogByUsername;
-        } else if (catalogById.isPresent()) {
-            return catalogById;
-        } else {
-            throw new RuntimeException("Catalog not found");
-        }
-    }
-
     public Optional<Catalog> getCatalogItemsByDate(Date date) {
         return catalogRepository.getAllByDate(date);
     }
@@ -62,16 +49,16 @@ public class CatalogService {
 
         Optional<Catalog> existingCatalogItem = catalogRepository.findById(catalogId);
         if (existingCatalogItem.isPresent()) {
-            catalog = existingCatalogItem.get();
+            throw new RuntimeException("Catalog item already exists");
         } else {
             catalog.setName(name);
             catalog.setDescription(description);
             catalog.setCategory(category);
             catalog.setPrice(price);
             catalog.setSku(sku);
-            // quantity will be set and added to today in db
-            catalog.setQuantity(quantity);
-            // business id needs to pulled from business being shopped
+            catalog.setQuantity(quantity + updateQuantityFromDbAmount(catalogId));
+            // business id needs to pulled from business of logged in owner
+            catalog.setBusinessId(getIdOfLoggedInBusinessOwner());
 
         }
 
@@ -85,5 +72,19 @@ public class CatalogService {
         }
 
         return catalog;
+    }
+
+    private Long getIdOfLoggedInBusinessOwner() {
+        //TODO: Update with logic to capture id of logged-in business owner
+        return null;
+    }
+
+    private Integer updateQuantityFromDbAmount(Long catalogId) {
+        Optional<Catalog> catalogItem = catalogRepository.findById(catalogId);
+
+        if (catalogItem.isEmpty()) {
+            throw new RuntimeException("Catalog item not found");
+        }
+           return catalogItem.get().getQuantity();
     }
 }

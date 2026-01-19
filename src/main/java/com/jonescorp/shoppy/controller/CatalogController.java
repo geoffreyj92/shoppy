@@ -27,13 +27,15 @@ public class CatalogController {
         return catalogService.getAll();
     }
 
-    public Optional<Catalog> getByUsernameOrId(Long id, String username) {
-       return catalogService.getCatalogByUsernameOrUserId(id, username);
-    }
-
-    @PostMapping
-    public Catalog createCatalogItem() {
-        return catalogService.createCatalogItem();
+    @PostMapping("username/ownerId/businessId")
+    public Catalog createCatalogItem(@RequestBody Long catalogId,
+                                     String name,
+                                     String description,
+                                     String category,
+                                     Double price,
+                                     Integer sku,
+                                     Integer quantity) {
+        return catalogService.createCatalogItem(catalogId, name, description, category, price, sku, quantity);
     }
 
     @PutMapping
