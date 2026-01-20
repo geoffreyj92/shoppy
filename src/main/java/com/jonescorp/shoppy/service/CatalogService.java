@@ -44,6 +44,7 @@ public class CatalogService {
         return catalogRepository.getAllByDate(date);
     }
 
+//    public Catalog createCatalogItem(Long catalogId, String name, String description, String category, Double price, Integer sku, Integer quantity) {
     public Catalog createCatalogItem(Long catalogId, String name, String description, String category, Double price, Integer sku, Integer quantity) {
         Catalog catalog = new Catalog();
 
@@ -75,14 +76,14 @@ public class CatalogService {
 
     private Long getIdOfLoggedInBusinessOwner() {
         //TODO: Update with logic to capture id of logged-in business owner
-        return null;
+        return 12134L;
     }
 
     private Integer updateQuantityFromDbAmount(Long catalogId) {
         Optional<Catalog> catalogItem = catalogRepository.findById(catalogId);
 
         if (catalogItem.isEmpty()) {
-            throw new RuntimeException("Catalog item not found");
+            return 0;
         }
            return catalogItem.get().getQuantity();
     }
