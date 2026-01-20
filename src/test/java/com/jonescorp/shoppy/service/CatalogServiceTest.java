@@ -29,7 +29,6 @@ public class CatalogServiceTest {
     @InjectMocks
     private CatalogService catalogService;
 
-//    Catalog catalogItem = new Catalog();
     Catalog catalogItem = mock(Catalog.class);
 
     Catalog catalogItem2 = mock(Catalog.class);
@@ -78,7 +77,6 @@ public class CatalogServiceTest {
         Mockito.verify(catalogRepository).save(captor.capture());
         assertThat(captor.getValue().getName()).isEqualTo("name");
         assertThat(captor.getValue().getQuantity()).isEqualTo(4);
-//        assertThat(captor.getValue().getCatalogId()).isEqualTo(12345L);
         assertThat(captor.getValue().getDescription()).isEqualTo("description");
         assertThat(captor.getValue().getCategory()).isEqualTo("category");
         assertThat(captor.getValue().getPrice()).isEqualTo(4.5);
@@ -86,5 +84,17 @@ public class CatalogServiceTest {
     }
 
     @Test
-    public void updateCatalogItem() {}
+    public void updateCatalogItem() {
+        when(catalogRepository.findById(12345L)).thenReturn(Optional.of(catalogItem));
+
+        catalogService.updateCatalogItem(12345L,"new name", "new description", "new category", 5.0, 12);
+
+        ArgumentCaptor<Catalog> captor = ArgumentCaptor.forClass(Catalog.class);
+        Mockito.verify(catalogRepository).save(captor.capture());
+        assertThat(captor.getValue().getName()).isEqualTo("new name");
+        assertThat(captor.getValue().getQuantity()).isEqualTo(12);
+        assertThat(captor.getValue().getDescription()).isEqualTo("new description");
+        assertThat(captor.getValue().getCategory()).isEqualTo("new category");
+        assertThat(captor.getValue().getPrice()).isEqualTo(5.0);
+    }
 }

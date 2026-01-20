@@ -73,25 +73,26 @@ public class CatalogService {
         //TODO: Need to find a way to not allow values to change in DB
         // items to not change 1. sku
         // 2. businessId
+        Catalog catalogItem = new Catalog();
 
         Optional<Catalog> existingCatalogItem = catalogRepository.findById(catalogId);
         if (existingCatalogItem.isEmpty()) {
             throw new RuntimeException("Catalog item does not exist");
         }
-        Catalog catalog = existingCatalogItem.get();
-        catalog.setName(name);
-        catalog.setDescription(description);
-        catalog.setCategory(category);
-        catalog.setPrice(price);
-        catalog.setQuantity(quantity + updateQuantityFromDbAmount(catalogId));
-        catalog.setBusinessId(getIdOfLoggedInBusinessOwner());
+//        Catalog catalog = existingCatalogItem.get();
+        catalogItem.setName(name);
+        catalogItem.setDescription(description);
+        catalogItem.setCategory(category);
+        catalogItem.setPrice(price);
+        catalogItem.setQuantity(quantity + updateQuantityFromDbAmount(catalogId));
+        catalogItem.setBusinessId(getIdOfLoggedInBusinessOwner());
         try {
-            catalogRepository.save(catalog);
+            catalogRepository.save(catalogItem);
             log.info("Catalog item updated");
         } catch (RuntimeException e) {
             new RuntimeException("Error in updating catalog item with ID: " + catalogId);
         }
-        return catalog;
+        return catalogItem;
     }
 
     private Long getIdOfLoggedInBusinessOwner() {
