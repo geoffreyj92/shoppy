@@ -22,10 +22,6 @@ public class CatalogService {
         this.catalogRepository = catalogRepository;
     }
 
-    public ArrayList<Catalog> getCatalogs() {
-        return (ArrayList<Catalog>) catalogRepository.findAll();
-    }
-
     public ArrayList<Catalog> getAll() {
         return (ArrayList<Catalog>) catalogRepository.findAll();
     }
@@ -44,7 +40,6 @@ public class CatalogService {
         return catalogRepository.getAllByDate(date);
     }
 
-//    public Catalog createCatalogItem(Long catalogId, String name, String description, String category, Double price, Integer sku, Integer quantity) {
     public Catalog createCatalogItem(Long catalogId, String name, String description, String category, Double price, Integer sku, Integer quantity) {
         Catalog catalog = new Catalog();
 
@@ -71,6 +66,31 @@ public class CatalogService {
             log.error("Error while saving catalog item");
         }
 
+        return catalog;
+    }
+
+    public Catalog updateCatalogItem(Long catalogId, String name, String description, String category, Double price, Integer quantity) {
+        //TODO: Need to find a way to not allow values to change in DB
+        // items to not change 1. sku
+        // 2. businessId
+
+        Optional<Catalog> existingCatalogItem = catalogRepository.findById(catalogId);
+        if (existingCatalogItem.isEmpty()) {
+            throw new RuntimeException("Catalog item does not exist");
+        }
+        Catalog catalog = existingCatalogItem.get();
+        catalog.setName(name);
+        catalog.setDescription(description);
+        catalog.setCategory(category);
+        catalog.setPrice(price);
+        catalog.setQuantity(quantity + updateQuantityFromDbAmount(catalogId));
+        catalog.setBusinessId(getIdOfLoggedInBusinessOwner());
+        try {
+            catalogRepository.save(catalog);
+            log.info("Catalog item updated");
+        } catch (RuntimeException e) {
+            new RuntimeException("Error in updating catalog item with ID: " + catalogId);
+        }
         return catalog;
     }
 

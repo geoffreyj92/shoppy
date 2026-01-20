@@ -32,6 +32,8 @@ public class CatalogServiceTest {
 //    Catalog catalogItem = new Catalog();
     Catalog catalogItem = mock(Catalog.class);
 
+    Catalog catalogItem2 = mock(Catalog.class);
+
     @BeforeEach
     public void setup() {
 
@@ -44,21 +46,7 @@ public class CatalogServiceTest {
         catalogItem.setSku(1234);
         catalogItem.setBusinessId(12134L);
 
-//        catalogRepository.save(catalogItem);
-    }
-
-    @Test
-    public void testFindAll() {
-        Catalog catalogItem = new Catalog();
-        catalogItem.setCatalogId(12345L);
-        catalogItem.setQuantity(4);
-        catalogItem.setPrice(4.5);
-        catalogItem.setCategory("Category");
-        catalogItem.setDescription("Description");
-        catalogItem.setName("Name");
-        catalogItem.setBusinessId(12134L);
-        Catalog catalogItem2 = new Catalog();
-        catalogItem2.setCatalogId(12345L);
+//        catalogItem2.setCatalogId(12345L);
         catalogItem2.setQuantity(4);
         catalogItem2.setPrice(4.5);
         catalogItem2.setCategory("Category");
@@ -66,13 +54,18 @@ public class CatalogServiceTest {
         catalogItem2.setName("Name");
         catalogItem2.setBusinessId(12134L);
 
+//        catalogRepository.save(catalogItem);
+    }
+
+    @Test
+    public void testFindAll() {
         List<Catalog> catalogs = new ArrayList<>();
         catalogs.add(catalogItem);
         catalogs.add(catalogItem2);
 
         when(catalogRepository.findAll()).thenReturn((catalogs));
 
-        List result = catalogService.getCatalogs();
+        List result = catalogService.getAll();
 
         assertEquals(result, catalogs);
     }
@@ -91,4 +84,7 @@ public class CatalogServiceTest {
         assertThat(captor.getValue().getPrice()).isEqualTo(4.5);
         assertThat(captor.getValue().getBusinessId()).isEqualTo(12134L);
     }
+
+    @Test
+    public void updateCatalogItem() {}
 }

@@ -39,8 +39,13 @@ public class CatalogController {
     }
 
     @PutMapping
-    public Catalog updateCatalogItem(Catalog catalog) {
-        return null;
+    public Catalog updateCatalogItem(@RequestBody Long catalogId,
+                                     String name,
+                                     String description,
+                                     String category,
+                                     Double price,
+                                     Integer quantity) {
+        return catalogService.updateCatalogItem(catalogId, name, description, category, price, quantity);
     }
 
     @DeleteMapping
