@@ -2,6 +2,7 @@ package com.jonescorp.shoppy.service;
 
 import com.jonescorp.shoppy.model.Catalog;
 import com.jonescorp.shoppy.repository.CatalogRepository;
+import org.h2.util.CacheTQ;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -96,5 +96,25 @@ public class CatalogServiceTest {
         assertThat(captor.getValue().getDescription()).isEqualTo("new description");
         assertThat(captor.getValue().getCategory()).isEqualTo("new category");
         assertThat(captor.getValue().getPrice()).isEqualTo(5.0);
+    }
+
+    @Test
+    public void deleteCatalogItem() {
+        when(catalogRepository.findById(12345L)).thenReturn(Optional.of(catalogItem));
+        catalogService.deleteCatalogItem(12345L);
+        verify(catalogRepository).deleteById(12345L);
+    }
+
+    @Test
+    public void createItemFails() {
+//        catalogService.createCatalogItem(12345L,"name", "description", "category", 4.5, 1234, 4);
+        Catalog catalogItemException = new Catalog();
+//
+//        doThrow(new RuntimeException()).when(catalogRepository).save(catalogItemException);
+
+        when(catalogRepository.save(catalogItemException)).thenReturn(catalogItemException).thenThrow(new RuntimeException());
+        assertThrows( RuntimeException.class,
+                () -> catalogService.getClass()
+        );
     }
 }

@@ -95,6 +95,15 @@ public class CatalogService {
         return catalogItem;
     }
 
+    public void deleteCatalogItem(Long catalogId) {
+        Optional<Catalog> existingCatalogItem = catalogRepository.findById(catalogId);
+        if (existingCatalogItem.isEmpty()) {
+            throw new RuntimeException("Catalog item does not exist");
+        }
+        catalogRepository.deleteById(catalogId);
+        log.info("Catalog item deleted with ID: " + catalogId);
+    }
+
     private Long getIdOfLoggedInBusinessOwner() {
         //TODO: Update with logic to capture id of logged-in business owner
         return 12134L;

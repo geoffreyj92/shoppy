@@ -23,12 +23,14 @@ public class CatalogController {
         return catalogService.getAllCatalogByBusinessId(businessId);
     }
 
+    @GetMapping("/allItems")
     public ArrayList<Catalog> getAll() {
         return catalogService.getAll();
     }
 
-    @PostMapping("username/ownerId/businessId")
-    public Catalog createCatalogItem(@RequestBody Long catalogId,
+    @PostMapping("/username/catalogItems/{catalogId}")
+    public Catalog createCatalogItem(@RequestBody
+                                         @PathVariable Long catalogId,
                                      String name,
                                      String description,
                                      String category,
@@ -38,8 +40,8 @@ public class CatalogController {
         return catalogService.createCatalogItem(catalogId, name, description, category, price, sku, quantity);
     }
 
-    @PutMapping
-    public Catalog updateCatalogItem(@RequestBody Long catalogId,
+    @PutMapping("/username/catalogItems/{catalogId}")
+    public Catalog updateCatalogItem(@RequestBody @PathVariable Long catalogId,
                                      String name,
                                      String description,
                                      String category,
