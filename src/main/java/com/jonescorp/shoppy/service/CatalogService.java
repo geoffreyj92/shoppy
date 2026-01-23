@@ -36,9 +36,14 @@ public class CatalogService {
         }
     }
 
-    public Optional<Catalog> getCatalogItemsByDate(Date date) {
-        return catalogRepository.getAllByDate(date);
+    public Optional<Catalog> getCatalogItemById(Long id) {
+        Optional<Catalog> catalogItem = catalogRepository.findById(id);
+        if (!catalogItem.isPresent()) {
+            throw new RuntimeException("Catalog item not found at id " + id);
+        }
+        return catalogItem;
     }
+
 
     public Catalog createCatalogItem(Long catalogId, String name, String description, String category, Double price, Integer sku, Integer quantity) {
         Catalog catalog = new Catalog();
